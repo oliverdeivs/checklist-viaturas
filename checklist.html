@@ -8,10 +8,10 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@400;500;600&display=swap"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-
+ 
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
+ 
   :root {
     --navy:    #0c1f3e;
     --navy2:   #142f5e;
@@ -24,7 +24,7 @@
     --muted:   #64748b;
     --border:  #d0d9ea;
     --radius:  10px;
-
+ 
     --ok-bg: #dcfce7; --ok-text: #166534; --ok-bd: #86efac;
     --at-bg: #fef9c3; --at-text: #713f12; --at-bd: #fde047;
     --av-bg: #fee2e2; --av-text: #7f1d1d; --av-bd: #fca5a5;
@@ -32,7 +32,7 @@
     --ev-bg: #ede9fe; --ev-text: #4c1d95; --ev-bd: #c4b5fd;
     --na-bg: #f3f4f6; --na-text: #6b7280; --na-bd: #d1d5db;
   }
-
+ 
   html, body {
     font-family: 'Barlow', sans-serif;
     background: var(--bg);
@@ -40,7 +40,7 @@
     min-height: 100vh;
     -webkit-font-smoothing: antialiased;
   }
-
+ 
   /* ─── HEADER ─── */
   .app-header {
     background: linear-gradient(135deg, var(--navy) 0%, var(--navy2) 60%, #1a3a6e 100%);
@@ -69,7 +69,7 @@
     color: rgba(255,255,255,.5); letter-spacing: 1px;
     text-align: right;
   }
-
+ 
   /* ─── PROGRESS BAR ─── */
   .progress-wrap {
     margin-top: 12px;
@@ -85,10 +85,10 @@
     font-size: 10px; color: rgba(255,255,255,.6);
     margin-top: 4px; text-align: right; letter-spacing: .5px;
   }
-
+ 
   /* ─── CONTENT ─── */
   .content { padding: 14px 12px 120px; max-width: 700px; margin: 0 auto; }
-
+ 
   /* ─── CARDS ─── */
   .card {
     background: var(--white);
@@ -98,7 +98,7 @@
     margin-bottom: 12px;
     overflow: hidden;
   }
-
+ 
   /* ─── SECTION HEADERS (collapsible) ─── */
   .section-header {
     background: linear-gradient(90deg, var(--navy) 0%, var(--blue) 100%);
@@ -110,7 +110,7 @@
   }
   .section-header.red  { background: linear-gradient(90deg, #7f1d1d, #dc2626); }
   .section-header.teal { background: linear-gradient(90deg, #1e3a5f, #0369a1); }
-
+ 
   .section-title {
     font-family: 'Barlow Condensed', sans-serif;
     font-size: 14px; font-weight: 700; letter-spacing: 1px;
@@ -126,12 +126,12 @@
     opacity: .8;
   }
   .section-header.open .section-chevron { transform: rotate(180deg); }
-
+ 
   .section-body {
     display: none; overflow: hidden;
   }
   .section-body.open { display: block; }
-
+ 
   /* ─── IDENTIFICATION CARD ─── */
   .id-grid {
     display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
@@ -152,7 +152,7 @@
     transition: border-color .2s;
   }
   .id-field input:focus { border-color: var(--blue); background: var(--white); }
-
+ 
   /* ─── CHECKLIST ROWS ─── */
   .check-row {
     padding: 10px 14px;
@@ -187,7 +187,7 @@
   .status-select.s-INSPEÇÃO { background-color: var(--in-bg); color: var(--in-text); border-color: var(--in-bd); }
   .status-select.s-AVALIAÇÃO{ background-color: var(--ev-bg); color: var(--ev-text); border-color: var(--ev-bd); }
   .status-select.s-NA       { background-color: var(--na-bg); color: var(--na-text); border-color: var(--na-bd); }
-
+ 
   .obs-input {
     width: 100%; border: 1px solid var(--border); border-radius: 6px;
     padding: 6px 9px; font-family: 'Barlow', sans-serif;
@@ -195,7 +195,7 @@
     outline: none; -webkit-appearance: none;
   }
   .obs-input:focus { border-color: var(--blue); }
-
+ 
   /* ─── EPI GRID ─── */
   .epi-grid {
     display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 12px;
@@ -207,7 +207,7 @@
     display: flex; flex-direction: column; gap: 6px;
   }
   .epi-label { font-size: 12px; font-weight: 600; color: var(--text); }
-
+ 
   /* ─── PLACA ROW ─── */
   .placa-row {
     padding: 10px 14px; border-bottom: 1px solid #eef0f5;
@@ -224,7 +224,7 @@
     letter-spacing: 1px;
   }
   .placa-input::placeholder { color: rgba(255,255,255,.45); }
-
+ 
   /* ─── TEXTAREAS ─── */
   .textarea-wrap { padding: 12px 14px; }
   textarea.main-area {
@@ -237,7 +237,7 @@
     -webkit-appearance: none; min-height: 80px;
   }
   textarea.main-area:focus { border-color: var(--blue); background: var(--white); }
-
+ 
   /* ─── BOTTOM ACTION BAR ─── */
   .action-bar {
     position: fixed; bottom: 0; left: 0; right: 0;
@@ -262,7 +262,7 @@
   .btn-pdf  { background: #dc2626; color: var(--white); }
   .btn-xls  { background: #16a34a; color: var(--white); }
   .btn-reset{ background: rgba(255,255,255,.12); color: rgba(255,255,255,.7); border: 1px solid rgba(255,255,255,.2); }
-
+ 
   /* ─── TOAST ─── */
   .toast {
     position: fixed; top: 16px; left: 50%; transform: translateX(-50%);
@@ -276,7 +276,7 @@
   .toast.error   { background: #fee2e2; color: #7f1d1d; border: 1px solid #fca5a5; }
   .toast.info    { background: #dbeafe; color: #1e3a8a; border: 1px solid #93c5fd; }
   @keyframes slideIn { from { opacity:0; transform: translateX(-50%) translateY(-10px); } }
-
+ 
   /* ─── STATUS PILL in row (read-only display) ─── */
   .warning-alert {
     background: #fff8e1; border-left: 4px solid var(--amber);
@@ -288,7 +288,7 @@
 </style>
 </head>
 <body>
-
+ 
 <!-- HEADER -->
 <div class="app-header">
   <div class="header-top">
@@ -301,10 +301,10 @@
   <div class="progress-wrap"><div class="progress-bar" id="progressBar"></div></div>
   <div class="progress-label" id="progressLabel">0 de 0 itens preenchidos</div>
 </div>
-
+ 
 <!-- CONTENT -->
 <div class="content">
-
+ 
   <!-- IDENTIFICAÇÃO -->
   <div class="card">
     <div class="section-header open" onclick="toggle(this)">
@@ -332,7 +332,7 @@
       </div>
     </div>
   </div>
-
+ 
   <!-- PARTE INTERNA -->
   <div class="card">
     <div class="section-header open" onclick="toggle(this)">
@@ -341,7 +341,7 @@
     </div>
     <div class="section-body open" id="s-parteInterna"></div>
   </div>
-
+ 
   <!-- INSTRUMENTOS DO PAINEL -->
   <div class="card">
     <div class="section-header open" onclick="toggle(this)">
@@ -350,7 +350,7 @@
     </div>
     <div class="section-body open" id="s-painel"></div>
   </div>
-
+ 
   <!-- PARTE EXTERNA -->
   <div class="card">
     <div class="section-header" onclick="toggle(this)">
@@ -359,7 +359,7 @@
     </div>
     <div class="section-body" id="s-parteExterna"></div>
   </div>
-
+ 
   <!-- FUNILARIA -->
   <div class="card">
     <div class="section-header" onclick="toggle(this)">
@@ -368,7 +368,7 @@
     </div>
     <div class="section-body" id="s-funilaria"></div>
   </div>
-
+ 
   <!-- EPIs -->
   <div class="card">
     <div class="section-header" onclick="toggle(this)">
@@ -377,7 +377,7 @@
     </div>
     <div class="section-body" id="s-epis"></div>
   </div>
-
+ 
   <!-- CARGA SECA -->
   <div class="card">
     <div class="section-header" onclick="toggle(this)" id="hdr-carga">
@@ -391,7 +391,7 @@
       </div>
     </div>
   </div>
-
+ 
   <!-- CAMINHÃO BAÚ -->
   <div class="card">
     <div class="section-header" onclick="toggle(this)" style="background:linear-gradient(90deg,#1a3a1a,#166534);">
@@ -413,7 +413,7 @@
       <div id="s-caminhaoFunilaria"></div>
     </div>
   </div>
-
+ 
   <!-- PANES -->
   <div class="card">
     <div class="section-header red" onclick="toggle(this)">
@@ -427,7 +427,7 @@
       </div>
     </div>
   </div>
-
+ 
   <!-- REPOSIÇÃO -->
   <div class="card">
     <div class="section-header teal" onclick="toggle(this)">
@@ -441,9 +441,9 @@
       </div>
     </div>
   </div>
-
+ 
 </div><!-- /content -->
-
+ 
 <!-- MODAL PDF SEÇÃO -->
 <div id="modalSecao" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:500;display:none;align-items:flex-end;justify-content:center;">
   <div style="background:#fff;border-radius:18px 18px 0 0;padding:20px 16px 30px;width:100%;max-width:700px;max-height:85vh;overflow-y:auto;">
@@ -460,7 +460,7 @@
     </div>
   </div>
 </div>
-
+ 
 <!-- MODAL PDF SEÇÃO -->
 <div id="modalSecao" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:500;align-items:flex-end;justify-content:center;">
   <div style="background:#fff;border-radius:18px 18px 0 0;padding:20px 16px 30px;width:100%;max-width:700px;max-height:85vh;overflow-y:auto;">
@@ -477,7 +477,7 @@
     </div>
   </div>
 </div>
-
+ 
 <!-- BOTTOM ACTION BAR -->
 <div class="action-bar" style="grid-template-columns:1fr 1fr 1fr 1fr;">
   <button class="btn btn-pdf" onclick="gerarPDF()" id="btnPdf">📄 Completo</button>
@@ -485,14 +485,14 @@
   <button class="btn btn-xls" onclick="gerarExcel()" id="btnXls">📊 Excel</button>
   <button class="btn btn-reset" onclick="resetar()">🔄 Reset</button>
 </div>
-
+ 
 <!-- TOAST -->
 <div class="toast success" id="toast" style="display:none;"></div>
-
+ 
 <script>
 // ─── DATA ─────────────────────────────────────────────────────────────────────
 const STATUS_OPTIONS = ["OK","ATENÇÃO","AVARIA","INSPEÇÃO","AVALIAÇÃO","N/A"];
-
+ 
 const SECTIONS = {
   parteInterna: [
     "Limpeza","Estofados","Iluminação Interna","Ar-condicionado",
@@ -519,13 +519,13 @@ const SECTIONS = {
     "Baú — Teto","Portas do Baú","Travas / Fechamento do Baú","Piso Interno do Baú"
   ]
 };
-
+ 
 // ─── RENDER ───────────────────────────────────────────────────────────────────
 function renderSection(sectionKey, withObs = true) {
   const items = SECTIONS[sectionKey];
   const container = document.getElementById(`s-${sectionKey}`);
   const isEpi = sectionKey === 'epis';
-
+ 
   if (isEpi) {
     const grid = document.createElement('div');
     grid.className = 'epi-grid';
@@ -542,7 +542,7 @@ function renderSection(sectionKey, withObs = true) {
     container.appendChild(grid);
     return;
   }
-
+ 
   // If cargaSeca, items go after the placa row
   items.forEach((item, i) => {
     const row = document.createElement('div');
@@ -563,21 +563,21 @@ function renderSection(sectionKey, withObs = true) {
     container.appendChild(row);
   });
 }
-
+ 
 function onStatusChange(sel, section, idx) {
   const cls = sel.value === 'N/A' ? 's-NA' : `s-${sel.value}`;
   sel.className = `status-select ${cls}`;
   updateBadge(section);
   updateProgress();
 }
-
+ 
 function updateBadge(section) {
   const items = SECTIONS[section];
   // caminhaoFunilaria shares badge with caminhaoExterno
   const badgeKey = section === 'caminhaoFunilaria' ? 'caminhaoExterno' : section;
   const badge = document.getElementById(`b-${badgeKey}`);
   if (!badge) return;
-
+ 
   // For caminhaoExterno badge: combine both caminhão sections
   let nonOk = 0;
   const keysToCheck = badgeKey === 'caminhaoExterno' ? ['caminhaoExterno','caminhaoFunilaria'] : [section];
@@ -590,7 +590,7 @@ function updateBadge(section) {
   badge.textContent = nonOk > 0 ? `⚠ ${nonOk}` : '✓';
   badge.style.background = nonOk > 0 ? 'rgba(245,158,11,.8)' : 'rgba(255,255,255,.2)';
 }
-
+ 
 function updateProgress() {
   const allKeys = Object.keys(SECTIONS);
   let total = 0, filled = 0;
@@ -606,13 +606,13 @@ function updateProgress() {
   document.getElementById('progressLabel').textContent = `${filled} de ${total} itens preenchidos`;
   Object.keys(SECTIONS).forEach(updateBadge);
 }
-
+ 
 function toggle(header) {
   header.classList.toggle('open');
   const body = header.nextElementSibling;
   body.classList.toggle('open');
 }
-
+ 
 // ─── COLLECT DATA ─────────────────────────────────────────────────────────────
 function collectData() {
   const get = id => document.getElementById(id)?.value || '';
@@ -622,7 +622,7 @@ function collectData() {
       status: get(`${sec}_${i}_status`) || 'OK',
       ...(withObs ? { obs: get(`${sec}_${i}_obs`) } : {})
     }));
-
+ 
   return {
     cavaloMecanico: get('cavalo'),
     quilometragem:  get('quilometragem'),
@@ -646,7 +646,7 @@ function collectData() {
     reposicao:      get('reposicao')
   };
 }
-
+ 
 // ─── PDF ──────────────────────────────────────────────────────────────────────
 async function gerarPDF() {
   const btn = document.getElementById('btnPdf');
@@ -656,12 +656,12 @@ async function gerarPDF() {
     const data = collectData();
     const doc = new jsPDF({ orientation:'portrait', unit:'mm', format:'a4' });
     const W = 210; let y = 15;
-
+ 
     const corStatus = {
       OK:[209,250,229], ATENÇÃO:[254,249,195], AVARIA:[254,226,226],
       INSPEÇÃO:[219,234,254], AVALIAÇÃO:[237,233,254], 'N/A':[243,244,246]
     };
-
+ 
     // Header
     doc.setFillColor(12,31,62);
     doc.rect(0,0,W,28,'F');
@@ -675,7 +675,7 @@ async function gerarPDF() {
     doc.setFontSize(7.5);
     doc.text(`Data: ${data.data}`, W/2, 24, {align:'center'});
     y = 36;
-
+ 
     // Info box
     doc.setFillColor(232,237,247);
     doc.roundedRect(10,y,W-20,18,2,2,'F');
@@ -685,7 +685,7 @@ async function gerarPDF() {
     doc.text(`KM: ${data.quilometragem||'—'}`, 14, y+13);
     doc.text(`MOTORISTA: ${data.motorista||'—'}`, W/2+5, y+6);
     y += 24;
-
+ 
     const drawSection = (title, rows, withObs=true) => {
       if (y > 258) { doc.addPage(); y = 15; }
       doc.setFillColor(12,31,62);
@@ -720,7 +720,7 @@ async function gerarPDF() {
       });
       y += 4;
     };
-
+ 
     drawSection('1. PARTE INTERNA', data.parteInterna);
     drawSection('INSTRUMENTOS DO PAINEL', data.painel);
     drawSection('2. PARTE EXTERNA', data.parteExterna);
@@ -729,7 +729,7 @@ async function gerarPDF() {
     drawSection(`4. CARGA SECA${data.cargaSeca.placa?' — '+data.cargaSeca.placa:''}`, data.cargaSeca.itens);
     drawSection(`5. CAMINHÃO BAÚ — ILUMINAÇÃO & PNEUS${data.caminhaBau.placa?' — '+data.caminhaBau.placa:''}`, data.caminhaBau.externo);
     drawSection('5. CAMINHÃO BAÚ — FUNILARIA & BAÚ', data.caminhaBau.funilaria);
-
+ 
     const drawText = (title, text) => {
       if (!text) return;
       if (y > 255) { doc.addPage(); y = 15; }
@@ -744,7 +744,7 @@ async function gerarPDF() {
     };
     drawText('RELATÓRIO DE PANES / FALHAS MECÂNICAS', data.panes);
     drawText('5. REPOSIÇÃO DE FÁCIL TROCA (NECESSIDADES)', data.reposicao);
-
+ 
     // Footer
     const total = doc.internal.getNumberOfPages();
     for (let p=1;p<=total;p++) {
@@ -755,7 +755,7 @@ async function gerarPDF() {
       doc.text('FAB - CTLA / CELOG', 14, 293);
       doc.text(`Página ${p} de ${total}`, W-14, 293, {align:'right'});
     }
-
+ 
     doc.save(`checklist_${data.cavaloMecanico||'viatura'}_${data.data}.pdf`);
     showToast('PDF gerado com sucesso! ✓', 'success');
   } catch(e) {
@@ -763,7 +763,7 @@ async function gerarPDF() {
   }
   btn.textContent = '📄 PDF'; btn.disabled = false;
 }
-
+ 
 // ─── EXCEL ────────────────────────────────────────────────────────────────────
 function gerarExcel() {
   const btn = document.getElementById('btnXls');
@@ -806,7 +806,7 @@ function gerarExcel() {
   }
   btn.textContent = '📊 Excel'; btn.disabled = false;
 }
-
+ 
 // ─── RESET ────────────────────────────────────────────────────────────────────
 function resetar() {
   if (!confirm('Limpar todos os dados do formulário?')) return;
@@ -825,7 +825,7 @@ function resetar() {
   updateProgress();
   showToast('Formulário resetado.', 'info');
 }
-
+ 
 // ─── TOAST ────────────────────────────────────────────────────────────────────
 let toastTimer;
 function showToast(msg, type='success') {
@@ -834,7 +834,7 @@ function showToast(msg, type='success') {
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => t.style.display='none', 3000);
 }
-
+ 
 // ─── SEÇÕES DISPONÍVEIS PARA SELEÇÃO ─────────────────────────────────────────
 const SECOES_PDF = [
   { id: 'identificacao', label: '📋 Identificação da Viatura', tipo: 'info' },
@@ -848,7 +848,7 @@ const SECOES_PDF = [
   { id: 'panes',         label: '⚠️ Relatório de Panes',        tipo: 'texto' },
   { id: 'reposicao',     label: '🔩 Reposição de Fácil Troca',  tipo: 'texto' },
 ];
-
+ 
 function abrirModal() {
   const container = document.getElementById('secaoCheckboxes');
   container.innerHTML = '';
@@ -860,35 +860,35 @@ function abrirModal() {
   });
   document.getElementById('modalSecao').style.display = 'flex';
 }
-
+ 
 function fecharModal() {
   document.getElementById('modalSecao').style.display = 'none';
 }
-
+ 
 function selecionarTodas(val) {
   SECOES_PDF.forEach(sec => {
     const el = document.getElementById(`chk_${sec.id}`);
     if (el) el.checked = val;
   });
 }
-
+ 
 async function gerarPDFSecao() {
   const btn = document.getElementById('btnGerarSecao');
   btn.textContent = '⏳ Gerando...'; btn.disabled = true;
   try {
     const selecionadas = SECOES_PDF.filter(s => document.getElementById(`chk_${s.id}`)?.checked);
     if (!selecionadas.length) { showToast('Selecione ao menos uma seção.', 'error'); btn.textContent = '📄 GERAR PDF'; btn.disabled = false; return; }
-
+ 
     const { jsPDF } = window.jspdf;
     const data = collectData();
     const doc = new jsPDF({ orientation:'portrait', unit:'mm', format:'a4' });
     const W = 210; let y = 15;
-
+ 
     const corStatus = {
       OK:[209,250,229], ATENÇÃO:[254,249,195], AVARIA:[254,226,226],
       INSPEÇÃO:[219,234,254], AVALIAÇÃO:[237,233,254], 'N/A':[243,244,246]
     };
-
+ 
     // Header
     doc.setFillColor(12,31,62); doc.rect(0,0,W,28,'F');
     doc.setFillColor(245,158,11); doc.rect(0,25,W,3,'F');
@@ -900,7 +900,7 @@ async function gerarPDFSecao() {
     doc.setFontSize(7.5);
     doc.text(`Data: ${data.data}`, W/2, 24, {align:'center'});
     y = 36;
-
+ 
     const drawSection = (title, rows, withObs=true) => {
       if (y > 258) { doc.addPage(); y = 15; }
       doc.setFillColor(12,31,62); doc.rect(10,y,W-20,7,'F');
@@ -928,7 +928,7 @@ async function gerarPDFSecao() {
       });
       y += 4;
     };
-
+ 
     const drawText = (title, text) => {
       if (!text) return;
       if (y > 255) { doc.addPage(); y = 15; }
@@ -940,7 +940,7 @@ async function gerarPDFSecao() {
       doc.text(lines, 14, y);
       y += lines.length*5+4;
     };
-
+ 
     selecionadas.forEach(sec => {
       if (sec.id === 'identificacao') {
         doc.setFillColor(232,237,247);
@@ -963,7 +963,7 @@ async function gerarPDFSecao() {
       else if (sec.id === 'panes')     drawText('RELATÓRIO DE PANES / FALHAS MECÂNICAS', data.panes);
       else if (sec.id === 'reposicao') drawText('REPOSIÇÃO DE FÁCIL TROCA (NECESSIDADES)', data.reposicao);
     });
-
+ 
     // Footer
     const total = doc.internal.getNumberOfPages();
     for (let p=1;p<=total;p++) {
@@ -974,7 +974,7 @@ async function gerarPDFSecao() {
       doc.text('FAB - CTLA / CELOG', 14, 293);
       doc.text(`Página ${p} de ${total}`, W-14, 293, {align:'right'});
     }
-
+ 
     const nomeSecs = selecionadas.length === 1
       ? selecionadas[0].label.replace(/[^\w]/g,'').substring(0,15)
       : 'selecao';
@@ -986,11 +986,11 @@ async function gerarPDFSecao() {
   }
   btn.textContent = '📄 GERAR PDF'; btn.disabled = false;
 }
-
+ 
 // ─── INIT ─────────────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('data').value = new Date().toISOString().split('T')[0];
-
+ 
   renderSection('parteInterna');
   renderSection('painel');
   renderSection('parteExterna');
