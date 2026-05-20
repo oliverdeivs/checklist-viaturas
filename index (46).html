@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatório de Viagem - CELOG</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <style>
+        @media print {
+            .no-print { display: none; }
+            body { padding: 0; margin: 0; }
+        }
+        input, select, textarea {
+            border: 1px solid #ccc;
+            padding: 4px;
+            border-radius: 4px;
+        }
+        .section-title {
+            background-color: #f3f4f6;
+            font-weight: bold;
+            padding: 8px;
+            margin-top: 16px;
+            border-bottom: 2px solid #3b82f6;
+        }
+        table input {
+            width: 100%;
+            border: none;
+            background: transparent;
+        }
+        table th {
+            background-color: #f8fafc;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 p-4 md:p-8">
+    <div class="max-w-5xl mx-auto bg-white p-6 shadow-lg rounded-lg border border-gray-200">
+        <!-- Header -->
+        <div class="text-center mb-6 border-b-2 pb-4">
+            <h1 class="text-xl font-bold uppercase">Centro de Logístico da Aeronáutica</h1>
+            <h2 class="text-lg font-semibold">Ficha de Motorista Relatório de Viagem</h2>
+            <div class="flex justify-center gap-4 mt-2">
+                <div>Nº <input type="text" id="relatorio_num" class="w-16 border-b border-black outline-none" placeholder="___"> / STRL / <input type="text" id="relatorio_ano" class="w-16 border-b border-black outline-none" placeholder="2025"></div>
+                <div>OS Nº <input type="text" id="os_num" class="w-20 border-b border-black outline-none" placeholder="____"> / CELOG / 2025</div>
+            </div>
+        </div>
+
+        <form id="reportForm">
+            <!-- Dados do Motorista -->
+            <div class="section-title">DADOS DO MOTORISTA E VEÍCULO</div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+                <div>Nome Completo: <input type="text" id="motorista_nome" class="w-full"></div>
+                <div class="grid grid-cols-3 gap-2">
+                    <div class="col-span-1">CPF: <input type="text" id="motorista_cpf" class="w-full"></div>
+                    <div>RA: <input type="text" id="motorista_ra" class="w-full"></div>
+                    <div>Saram: <input type="text" id="motorista_saram" class="w-full"></div>
+                </div>
+                <div>Modelo Veículo: <input type="text" id="veiculo_modelo" class="w-full"></div>
+                <div class="grid grid-cols-2 gap-2">
+                    <div>REG FAB: <input type="text" id="veiculo_reg" class="w-full"></div>
+                    <div>Placa: <input type="text" id="veiculo_placa" class="w-full"></div>
+                </div>
+            </div>
+
+            <!-- Dados da Viagem -->
+            <div class="section-title">DADOS DA VIAGEM</div>
+            <div class="mt-2 space-y-2">
+                <div class="flex flex-wrap gap-4 items-center">
+                    <span>Missão:</span>
+                    <label><input type="checkbox" name="missao" value="Desembaraço"> Desembaraço</label>
+                    <label><input type="checkbox" name="missao" value="Transporte de Carga"> Transporte de Carga</label>
+                    <label><input type="checkbox" name="missao" value="Contêiner Devolução"> Contêiner Devolução</label>
+                    <label><input type="checkbox" name="missao" value="Contêiner Puxe"> Contêiner Puxe</label>
+                    <label>Outras: <input type="text" id="missao_outras" class="border-b"></label>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>Data Saída: <input type="date" id="saida_data" class="w-full"></div>
+                    <div>Horário: <input type="time" id="saida_hora" class="w-full"></div>
+                    <div>KM: <input type="number" id="saida_km" class="w-full"></div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>Data Chegada: <input type="date" id="chegada_data" class="w-full"></div>
+                    <div>Horário: <input type="time" id="chegada_hora" class="w-full"></div>
+                    <div>KM: <input type="number" id="chegada_km" class="w-full"></div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>Origem: <input type="text" id="viagem_origem" class="w-full"></div>
+                    <div>Destino: <input type="text" id="viagem_destino" class="w-full"></div>
+                </div>
+                <div>Pernoites (Cidades/Estados): <input type="text" id="pernoites" class="w-full"></div>
+            </div>
+
+            <!-- Etapas -->
+            <div class="section-title">ETAPAS</div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+                <table class="w-full border-collapse border border-gray-300 text-sm">
+                    <thead><tr><th class="border border-gray-300 p-1">Etapa</th><th class="border border-gray-300 p-1">Data</th><th class="border border-gray-300 p-1">Local</th></tr></thead>
+                    <tbody id="etapas_1"></tbody>
+                </table>
+                <table class="w-full border-collapse border border-gray-300 text-sm">
+                    <thead><tr><th class="border border-gray-300 p-1">Etapa</th><th class="border border-gray-300 p-1">Data</th><th class="border border-gray-300 p-1">Local</th></tr></thead>
+                    <tbody id="etapas_2"></tbody>
+                </table>
+            </div>
+
+            <!-- Dados do Combustível -->
+            <div class="section-title">DADOS DO COMBUSTÍVEL</div>
+            <div class="mt-2">
+                <div class="flex gap-4 mb-2">
+                    <span>Combustível:</span>
+                    <label><input type="radio" name="combustivel_tipo" value="Gasolina"> Gasolina</label>
+                    <label><input type="radio" name="combustivel_tipo" value="Etanol"> Etanol</label>
+                    <label><input type="radio" name="combustivel_tipo" value="Diesel"> Diesel</label>
+                    <label>Outro: <input type="text" id="combustivel_outro" class="border-b"></label>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full border-collapse border border-gray-300 text-sm">
+                        <thead>
+                            <tr>
+                                <th class="border border-gray-300 p-1">Nº</th>
+                                <th class="border border-gray-300 p-1">OM</th>
+                                <th class="border border-gray-300 p-1">Data</th>
+                                <th class="border border-gray-300 p-1">Odômetro (km)</th>
+                                <th class="border border-gray-300 p-1">Qtd Comb (L)</th>
+                                <th class="border border-gray-300 p-1">Qtd Arla (L)</th>
+                                <th class="border border-gray-300 p-1">Abastecedor</th>
+                            </tr>
+                        </thead>
+                        <tbody id="combustivel_corpo"></tbody>
+                    </table>
+                </div>
+                <div class="mt-2 text-right font-bold">Total Abastecido: <input type="number" id="total_abastecido" class="w-32"> L</div>
+            </div>
+
+            <!-- Resumo de Cargas -->
+            <div class="section-title">RESUMO DE CARGAS TRANSPORTADAS</div>
+            <div class="mt-2 overflow-x-auto">
+                <table class="w-full border-collapse border border-gray-300 text-sm">
+                    <thead>
+                        <tr>
+                            <th class="border border-gray-300 p-1">Nº</th>
+                            <th class="border border-gray-300 p-1">Manifesto/GMV</th>
+                            <th class="border border-gray-300 p-1">Data</th>
+                            <th class="border border-gray-300 p-1">Peso</th>
+                            <th class="border border-gray-300 p-1">Cubagem</th>
+                            <th class="border border-gray-300 p-1">Itens</th>
+                            <th class="border border-gray-300 p-1">Recebedor/OM</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cargas_corpo"></tbody>
+                </table>
+            </div>
+
+            <!-- Observações -->
+            <div class="section-title">OBSERVAÇÕES E INCIDENTES</div>
+            <div class="mt-2 space-y-2">
+                <div class="flex gap-4">
+                    <label><input type="radio" name="ocorrencia" value="Sem ocorrências" checked> Sem ocorrências</label>
+                    <label><input type="radio" name="ocorrencia" value="Com ocorrências"> Com ocorrências</label>
+                </div>
+                <textarea id="observacoes" class="w-full h-24 border border-gray-300 p-2 rounded" placeholder="Descrever ocorrências aqui..."></textarea>
+                <div class="text-xs text-gray-600 bg-blue-50 p-2 rounded border border-blue-200">
+                    <strong>EMERGÊNCIA MECÂNICA:</strong> Peça Oil Distribuidora Ltda | CNPJ: 34.043.125/0001-10 | Praia da Jequiá, 25 - Ribeira, RJ | STRL: (11) 3382-5259
+                </div>
+            </div>
+
+            <!-- Assinaturas -->
+            <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-12 text-center">
+                <div class="border-t border-black pt-2">Assinatura do Motorista</div>
+                <div class="border-t border-black pt-2">Nome e assinatura do Oficial da STRL</div>
+            </div>
+
+            <!-- Botões -->
+            <div class="mt-8 flex flex-wrap gap-4 justify-center no-print">
+                <button type="button" onclick="gerarPDF()" class="bg-red-600 text-white px-6 py-2 rounded hover:bg-red-700 transition">Gerar PDF</button>
+                <button type="button" onclick="gerarExcel()" class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700 transition">Exportar Excel</button>
+                <button type="reset" class="bg-gray-500 text-white px-6 py-2 rounded hover:bg-gray-600 transition">Limpar</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Inicializar Tabelas
+        function initTables() {
+            // Etapas 1-8 e 9-16
+            const e1 = document.getElementById('etapas_1');
+            const e2 = document.getElementById('etapas_2');
+            for(let i=1; i<=8; i++) {
+                e1.innerHTML += `<tr><td class="border p-1 text-center">${i.toString().padStart(2,'0')}</td><td class="border p-1"><input type="date"></td><td class="border p-1"><input type="text"></td></tr>`;
+                e2.innerHTML += `<tr><td class="border p-1 text-center">${(i+8).toString().padStart(2,'0')}</td><td class="border p-1"><input type="date"></td><td class="border p-1"><input type="text"></td></tr>`;
+            }
+
+            // Combustível 1-10
+            const cBody = document.getElementById('combustivel_corpo');
+            for(let i=1; i<=10; i++) {
+                cBody.innerHTML += `<tr>
+                    <td class="border p-1 text-center">${i}</td>
+                    <td class="border p-1"><input type="text"></td>
+                    <td class="border p-1"><input type="date"></td>
+                    <td class="border p-1"><input type="number"></td>
+                    <td class="border p-1"><input type="number" class="comb-qtd"></td>
+                    <td class="border p-1"><input type="number"></td>
+                    <td class="border p-1"><input type="text"></td>
+                </tr>`;
+            }
+
+            // Cargas 1-10
+            const cgBody = document.getElementById('cargas_corpo');
+            for(let i=1; i<=10; i++) {
+                cgBody.innerHTML += `<tr>
+                    <td class="border p-1 text-center">${i}</td>
+                    <td class="border p-1"><input type="text"></td>
+                    <td class="border p-1"><input type="date"></td>
+                    <td class="border p-1"><input type="text"></td>
+                    <td class="border p-1"><input type="text"></td>
+                    <td class="border p-1"><input type="text"></td>
+                    <td class="border p-1"><input type="text"></td>
+                </tr>`;
+            }
+        }
+
+        initTables();
+
+        // Geração de PDF
+        async function gerarPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF('p', 'pt', 'a4');
+            
+            doc.setFontSize(12);
+            doc.text("CENTRO DE LOGÍSTICO DA AERONÁUTICA", 297, 40, { align: 'center' });
+            doc.text("Ficha de Motorista Relatório de Viagem", 297, 60, { align: 'center' });
+            
+            doc.setFontSize(10);
+            const relNum = document.getElementById('relatorio_num').value || '___';
+            const relAno = document.getElementById('relatorio_ano').value || '2025';
+            const osNum = document.getElementById('os_num').value || '____';
+            doc.text(`Nº ${relNum}/STRL/${relAno} - Missão OS Nº ${osNum}/CELOG/2025`, 297, 80, { align: 'center' });
+
+            // Dados Motorista
+            doc.setFillColor(240, 240, 240);
+            doc.rect(40, 100, 515, 20, 'F');
+            doc.setFont(undefined, 'bold');
+            doc.text("DADOS DO MOTORISTA E VEÍCULO", 45, 114);
+            doc.setFont(undefined, 'normal');
+            
+            doc.text(`Nome: ${document.getElementById('motorista_nome').value}`, 45, 135);
+            doc.text(`CPF: ${document.getElementById('motorista_cpf').value} | RA: ${document.getElementById('motorista_ra').value} | Saram: ${document.getElementById('motorista_saram').value}`, 45, 150);
+            doc.text(`Veículo: ${document.getElementById('veiculo_modelo').value} | REG FAB: ${document.getElementById('veiculo_reg').value} | Placa: ${document.getElementById('veiculo_placa').value}`, 45, 165);
+
+            // Dados Viagem
+            doc.setFillColor(240, 240, 240);
+            doc.rect(40, 180, 515, 20, 'F');
+            doc.setFont(undefined, 'bold');
+            doc.text("DADOS DA VIAGEM", 45, 194);
+            doc.setFont(undefined, 'normal');
+
+            doc.text(`Origem: ${document.getElementById('viagem_origem').value} | Destino: ${document.getElementById('viagem_destino').value}`, 45, 215);
+            doc.text(`Saída: ${document.getElementById('saida_data').value} ${document.getElementById('saida_hora').value} (KM: ${document.getElementById('saida_km').value})`, 45, 230);
+            doc.text(`Chegada: ${document.getElementById('chegada_data').value} ${document.getElementById('chegada_hora').value} (KM: ${document.getElementById('chegada_km').value})`, 45, 245);
+
+            // Tabelas de Etapas (Exemplo Simplificado para o PDF)
+            doc.autoTable({
+                startY: 260,
+                head: [['Etapa', 'Data', 'Local', 'Etapa', 'Data', 'Local']],
+                body: Array.from({length: 8}, (_, i) => {
+                    const row1 = document.getElementById('etapas_1').rows[i].cells;
+                    const row2 = document.getElementById('etapas_2').rows[i].cells;
+                    return [
+                        row1[0].innerText, row1[1].firstChild.value, row1[2].firstChild.value,
+                        row2[0].innerText, row2[1].firstChild.value, row2[2].firstChild.value
+                    ];
+                }),
+                theme: 'grid',
+                styles: { fontSize: 8 }
+            });
+
+            // Combustível
+            doc.autoTable({
+                startY: doc.lastAutoTable.finalY + 20,
+                head: [['Nº', 'OM', 'Data', 'KM', 'Qtd L', 'Arla L', 'Abastecedor']],
+                body: Array.from(document.getElementById('combustivel_corpo').rows).map(r => 
+                    Array.from(r.cells).map(c => c.firstChild?.value || c.innerText)
+                ).filter(r => r[1] !== ""),
+                theme: 'grid',
+                styles: { fontSize: 8 }
+            });
+
+            // Cargas
+            doc.autoTable({
+                startY: doc.lastAutoTable.finalY + 20,
+                head: [['Nº', 'Manifesto', 'Data', 'Peso', 'Cubagem', 'Itens', 'Recebedor']],
+                body: Array.from(document.getElementById('cargas_corpo').rows).map(r => 
+                    Array.from(r.cells).map(c => c.firstChild?.value || c.innerText)
+                ).filter(r => r[1] !== ""),
+                theme: 'grid',
+                styles: { fontSize: 8 }
+            });
+
+            doc.save(`Relatorio_Viagem_${relNum}.pdf`);
+        }
+
+        // Geração de Excel
+        function gerarExcel() {
+            const wb = XLSX.utils.book_new();
+            
+            // Coletar dados básicos
+            const dadosBasicos = [
+                ["Relatório Nº", document.getElementById('relatorio_num').value, "Ano", document.getElementById('relatorio_ano').value],
+                ["OS Nº", document.getElementById('os_num').value],
+                ["Motorista", document.getElementById('motorista_nome').value, "CPF", document.getElementById('motorista_cpf').value],
+                ["Veículo", document.getElementById('veiculo_modelo').value, "Placa", document.getElementById('veiculo_placa').value],
+                [],
+                ["RESUMO DE CARGAS"]
+            ];
+
+            const ws = XLSX.utils.aoa_to_sheet(dadosBasicos);
+            
+            // Adicionar Cargas
+            const cargas = Array.from(document.getElementById('cargas_corpo').rows).map(r => 
+                Array.from(r.cells).map(c => c.firstChild?.value || c.innerText)
+            );
+            XLSX.utils.sheet_add_aoa(ws, [["Nº", "Manifesto", "Data", "Peso", "Cubagem", "Itens", "Recebedor"]], {origin: "A7"});
+            XLSX.utils.sheet_add_aoa(ws, cargas, {origin: "A8"});
+
+            XLSX.utils.book_append_sheet(wb, ws, "Relatório");
+            XLSX.saveAs(XLSX.write(wb, {bookType: 'xlsx', type: 'binary'}), `Relatorio_Viagem.xlsx`);
+        }
+    </script>
+</body>
+</html>
