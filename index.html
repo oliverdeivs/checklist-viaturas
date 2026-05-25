@@ -371,7 +371,7 @@
                     <div class="card-body">
                         <div class="btn-group">
                             <button class="btn btn-active" onclick="switchChecklist('cavalo')">🚛 Cavalo Mecânico</button>
-                            <button class="btn btn-secondary" onclick="switchChecklist('carga')">📦 Carga Seca</button>
+                            <button class="btn btn-secondary" onclick="switchChecklist('semirreboque')">📦 Semirreboque</button>
                             <button class="btn btn-secondary" onclick="switchChecklist('bau')">🚚 Caminhão Baú</button>
                         </div>
                     </div>
@@ -429,15 +429,18 @@
 
         const CHECKLIST_ITEMS = {
             cavalo: [...CAVALO_ITEMS],
-            carga: [
-                ...CAVALO_ITEMS,
-                { id: 'assoalho', name: 'Assoalho da carroceria', category: '4. CARGA SECA' },
-                { id: 'grades', name: 'Grades laterais e traseira', category: '4. CARGA SECA' },
-                { id: 'travas', name: 'Travas das grades', category: '4. CARGA SECA' },
-                { id: 'arcos', name: 'Arcos e lona (se houver)', category: '4. CARGA SECA' },
-                { id: 'cordas', name: 'Cordas e cintas de amarração', category: '4. CARGA SECA' },
-                { id: 'protetores', name: 'Protetores laterais', category: '4. CARGA SECA' },
-                { id: 'faixas_refletivas', name: 'Faixas refletivas', category: '4. CARGA SECA' },
+            semirreboque: [
+                { id: 'assoalho', name: 'Assoalho da carroceria', category: 'CHECKLIST SEMIRREBOQUE' },
+                { id: 'grades', name: 'Grades laterais e traseira', category: 'CHECKLIST SEMIRREBOQUE' },
+                { id: 'travas', name: 'Travas das grades', category: 'CHECKLIST SEMIRREBOQUE' },
+                { id: 'arcos', name: 'Arcos e lona (se houver)', category: 'CHECKLIST SEMIRREBOQUE' },
+                { id: 'cordas', name: 'Cordas e cintas de amarração', category: 'CHECKLIST SEMIRREBOQUE' },
+                { id: 'protetores', name: 'Protetores laterais', category: 'CHECKLIST SEMIRREBOQUE' },
+                { id: 'faixas_refletivas', name: 'Faixas refletivas', category: 'CHECKLIST SEMIRREBOQUE' },
+                { id: 'lanternas_semirreboque', name: 'Lanternas', category: 'CHECKLIST SEMIRREBOQUE' },
+                { id: 'pneus_semirreboque', name: 'Pneus', category: 'CHECKLIST SEMIRREBOQUE' },
+                { id: 'mangueiras_rodoar', name: 'Mangueiras do rodoar', category: 'CHECKLIST SEMIRREBOQUE' },
+                { id: 'step_semirreboque', name: 'Step', category: 'CHECKLIST SEMIRREBOQUE' },
             ],
             bau: [
                 ...CAVALO_ITEMS,
@@ -465,13 +468,13 @@
         let currentType = 'cavalo';
         const TYPE_LABELS = {
             cavalo: 'Cavalo Mecânico',
-            carga: 'Carga Seca',
+            semirreboque: 'Semirreboque',
             bau: 'Caminhão Baú'
         };
 
         let formData = {
             cavalo: { cavaloMecanico: '', quilometragem: '', motorista: '', data: new Date().toISOString().split('T')[0], panes: '', reposicao: '', items: {} },
-            carga: { cavaloMecanico: '', quilometragem: '', motorista: '', data: new Date().toISOString().split('T')[0], panes: '', reposicao: '', items: {} },
+            semirreboque: { cavaloMecanico: '', quilometragem: '', motorista: '', data: new Date().toISOString().split('T')[0], panes: '', reposicao: '', items: {} },
             bau: { cavaloMecanico: '', quilometragem: '', motorista: '', data: new Date().toISOString().split('T')[0], panes: '', reposicao: '', items: {} },
         };
 
@@ -495,7 +498,7 @@
             
             const buttons = document.querySelectorAll('.btn-group .btn');
             if (type === 'cavalo') buttons[0].classList.replace('btn-secondary', 'btn-active');
-            if (type === 'carga') buttons[1].classList.replace('btn-secondary', 'btn-active');
+            if (type === 'semirreboque') buttons[1].classList.replace('btn-secondary', 'btn-active');
             if (type === 'bau') buttons[2].classList.replace('btn-secondary', 'btn-active');
             
             renderForm();
